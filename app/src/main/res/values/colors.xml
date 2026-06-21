@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary Brand Colors -->
+    <color name="primary">#1A237E</color>        <!-- Deep Indigo -->
+    <color name="primary_dark">#0D1457</color>
+    <color name="primary_light">#534BAE</color>
+
+    <!-- Accent -->
+    <color name="accent">#00BFA5</color>          <!-- Teal -->
+
+    <!-- Backgrounds -->
+    <color name="background">#F5F6FA</color>
+    <color name="surface">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1C1C1E</color>
+    <color name="text_secondary">#6E6E73</color>
+    <color name="text_hint">#A0A0A5</color>
+
+    <!-- States -->
+    <color name="success">#2E7D32</color>
+    <color name="error">#C62828</color>
+    <color name="warning">#F9A825</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.maryam.aicareerassistant" />
+                  <option name="mobileSdkAppId" value="1:293817110489:android:161ec6ff630c168d8d53c8" />
+                  <option name="projectId" value="ai-career-assistant-60f94" />
+                  <option name="projectNumber" value="293817110489" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
