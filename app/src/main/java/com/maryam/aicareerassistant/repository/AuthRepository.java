@@ -7,6 +7,7 @@ import com.maryam.aicareerassistant.firebase.FirebaseAuthHelper;
 import com.maryam.aicareerassistant.model.User;
 import com.maryam.aicareerassistant.utils.Constants;
 import com.maryam.aicareerassistant.utils.Resource;
+import com.maryam.aicareerassistant.viewmodel.AuthViewModel;
 
 /**
  * Single source of truth for authentication. ViewModel never talks to
@@ -83,5 +84,22 @@ public class AuthRepository {
 
     public FirebaseUser getCurrentUser() {
         return authHelper.getCurrentUser();
+    }
+
+    /**
+     * Asks Firebase to reload the current user's data from its servers.
+     * Fails if the account was deleted, disabled, or the session token
+     * was revoked — which getCurrentUser() alone cannot detect.
+     */
+    public void verifySession(AuthViewModel.SessionCallback callback) {
+        FirebaseUser user = authHelper.getCurrentUser();
+        if (user == null) {
+            callback.onInvalid();
+            return;
+        }
+
+        user.reload()
+                .addOnSuccessListener(unused -> callback.onValid())
+                .addOnFailureListener(e -> callback.onInvalid());
     }
 }

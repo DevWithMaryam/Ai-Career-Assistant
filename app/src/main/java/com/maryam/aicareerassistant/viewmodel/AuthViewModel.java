@@ -79,4 +79,25 @@ public class AuthViewModel extends ViewModel {
     public void logout() {
         authRepository.logout();
     }
+
+    /**
+     * Returns cached FirebaseUser without any network check. Used by Splash
+     * to decide whether a session check is even needed.
+     */
+    public FirebaseUser getCurrentUserOrNull() {
+        return authRepository.getCurrentUser();
+    }
+
+    /**
+     * Callback used by Splash to confirm a cached session is still valid
+     * on Firebase's servers (not just present in local cache).
+     */
+    public interface SessionCallback {
+        void onValid();
+        void onInvalid();
+    }
+
+    public void verifySession(SessionCallback callback) {
+        authRepository.verifySession(callback);
+    }
 }
