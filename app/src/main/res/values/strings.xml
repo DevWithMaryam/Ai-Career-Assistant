@@ -28,7 +28,23 @@
     <string name="back_to_login">Back to Login</string>
     <string name="reset_email_sent">Reset link sent! Check your email.</string>
 
-    <!-- Home (placeholder) -->
+    <!-- Home / Dashboard -->
     <string name="welcome_message">Welcome to AI Career Assistant!</string>
+    <string name="welcome_back_title">Welcome back!</string>
     <string name="logout">Logout</string>
+    <string name="logout_desc">Logout</string>
+    <string name="coming_soon">This feature is coming in a later phase!</string>
+
+    <string name="dashboard_card_resume_title">Resume Analysis</string>
+    <string name="dashboard_card_resume_subtitle">Get AI feedback on your resume</string>
+    <string name="dashboard_card_skillgap_title">Skill Gap</string>
+    <string name="dashboard_card_skillgap_subtitle">Find missing skills for your target role</string>
+    <string name="dashboard_card_roadmap_title">Learning Roadmap</string>
+    <string name="dashboard_card_roadmap_subtitle">Your personalized weekly plan</string>
+    <string name="dashboard_card_interview_title">Interview Questions</string>
+    <string name="dashboard_card_interview_subtitle">Practice technical &amp; HR questions</string>
+    <string name="dashboard_card_history_title">History</string>
+    <string name="dashboard_card_history_subtitle">View your past analyses</string>
+    <string name="dashboard_card_profile_title">Profile</string>
+    <string name="dashboard_card_profile_subtitle">Manage your account</string>
 </resources>

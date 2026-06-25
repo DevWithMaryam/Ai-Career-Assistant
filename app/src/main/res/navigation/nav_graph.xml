@@ -56,6 +56,12 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.maryam.aicareerassistant.fragments.HomeFragment"
-        android:label="Home" />
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

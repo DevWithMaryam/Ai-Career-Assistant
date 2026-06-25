@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary Brand Colors -->
-    <color name="primary">#1A237E</color>        <!-- Deep Indigo -->
+    <color name="primary">#1A237E</color>
     <color name="primary_dark">#0D1457</color>
     <color name="primary_light">#534BAE</color>
 
     <!-- Accent -->
-    <color name="accent">#00BFA5</color>          <!-- Teal -->
+    <color name="accent">#00BFA5</color>
 
     <!-- Backgrounds -->
     <color name="background">#F5F6FA</color>
@@ -24,4 +24,10 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <!-- Dashboard Card Icon Colors -->
+    <color name="card_indigo">#3F51B5</color>
+    <color name="card_purple">#7C4DFF</color>
+    <color name="card_orange">#FB8C00</color>
+    <color name="card_blue">#0288D1</color>
 </resources>
