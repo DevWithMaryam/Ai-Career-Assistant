@@ -18,11 +18,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.card.MaterialCardView;
 import com.maryam.aicareerassistant.R;
 import com.maryam.aicareerassistant.utils.FileUtils;
 import com.maryam.aicareerassistant.viewmodel.ResumeViewModel;
+
 
 /**
  * Lets the user pick a PDF resume, extract its text locally,
@@ -144,6 +146,10 @@ public class ResumeUploadFragment extends Fragment {
                     if (selectedFileUri != null) {
                         resumeViewModel.uploadResume(selectedFileUri);
                     }
+
+                    // ✅ Navigate to analysis screen after successful extraction
+                    Navigation.findNavController(requireView())
+                            .navigate(R.id.action_resumeUpload_to_resumeAnalysis);
                     break;
 
                 case ERROR:

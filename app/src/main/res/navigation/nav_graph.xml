@@ -70,6 +70,24 @@
     <fragment
         android:id="@+id/resumeUploadFragment"
         android:name="com.maryam.aicareerassistant.fragments.ResumeUploadFragment"
-        android:label="Resume Upload" />
+        android:label="Resume Upload">
+        <action
+            android:id="@+id/action_resumeUpload_to_resumeAnalysis"
+            app:destination="@id/resumeAnalysisFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resumeAnalysisFragment"
+        android:name="com.maryam.aicareerassistant.fragments.ResumeAnalysisFragment"
+        android:label="Resume Analysis">
+        <action
+            android:id="@+id/action_resumeAnalysis_to_careerSelection"
+            app:destination="@id/careerSelectionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/careerSelectionFragment"
+        android:name="com.maryam.aicareerassistant.fragments.CareerSelectionFragment"
+        android:label="Career Selection" />
 
 </navigation>
