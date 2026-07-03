@@ -47,4 +47,15 @@
     <string name="dashboard_card_history_subtitle">View your past analyses</string>
     <string name="dashboard_card_profile_title">Profile</string>
     <string name="dashboard_card_profile_subtitle">Manage your account</string>
+
+    <!-- Resume Upload -->
+    <string name="resume_upload_title">Upload Your Resume</string>
+    <string name="resume_upload_subtitle">Upload your resume in PDF format to get AI-powered analysis</string>
+    <string name="resume_already_uploaded">You already have a resume on file.</string>
+    <string name="view_resume">View</string>
+    <string name="tap_to_select_pdf">Tap to select a PDF file</string>
+    <string name="pdf_size_hint">PDF only • Max size 5 MB</string>
+    <string name="upload_resume">Upload Resume</string>
+    <string name="resume_upload_success">Resume uploaded successfully!</string>
+    <string name="error_file_too_large">File is too large. Maximum allowed size is 5 MB.</string>
 </resources>

@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
 
         List<DashboardItem> items = buildDashboardItems();
 
-        DashboardAdapter adapter = new DashboardAdapter(items, this::onCardClicked);
+        DashboardAdapter adapter = new DashboardAdapter(items, item -> onCardClicked(view, item));
         rvDashboard.setAdapter(adapter);
     }
 
@@ -114,13 +114,13 @@ public class HomeFragment extends Fragment {
         return items;
     }
 
-    private void onCardClicked(DashboardItem item) {
-        // Each module below is built in a later phase. For now we show a
-        // friendly "coming soon" message instead of crashing on a missing
-        // navigation destination. As each phase is completed, replace the
-        // Toast with Navigation.findNavController(...).navigate(R.id...).
+    private void onCardClicked(View view, DashboardItem item) {
         switch (item.getKey()) {
             case "resume_analysis":
+                // Resume must be uploaded before it can be analyzed,
+                // so this card currently opens the Upload screen.
+                Navigation.findNavController(view).navigate(R.id.action_home_to_resumeUpload);
+                break;
             case "skill_gap":
             case "roadmap":
             case "interview":
