@@ -34,7 +34,6 @@
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Existing Resume Card (shown only if a resume was already uploaded) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardExistingResume"
             android:layout_width="match_parent"
@@ -81,7 +80,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- File Picker Box -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPicker"
             android:layout_width="match_parent"
@@ -147,18 +145,30 @@
             android:textSize="11sp"
             app:layout_constraintTop_toBottomOf="@id/cardPicker" />
 
+        <!-- Extraction status message -->
+        <TextView
+            android:id="@+id/tvExtractionStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:textColor="@color/accent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvHint" />
+
         <Button
             android:id="@+id/btnUpload"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:backgroundTint="@color/primary"
             android:enabled="false"
             android:text="@string/upload_resume"
             android:textColor="@color/white"
             android:textAllCaps="false"
             app:cornerRadius="12dp"
-            app:layout_constraintTop_toBottomOf="@id/tvHint" />
+            app:layout_constraintTop_toBottomOf="@id/tvExtractionStatus" />
 
         <LinearLayout
             android:id="@+id/progressContainer"

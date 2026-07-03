@@ -58,4 +58,9 @@
     <string name="upload_resume">Upload Resume</string>
     <string name="resume_upload_success">Resume uploaded successfully!</string>
     <string name="error_file_too_large">File is too large. Maximum allowed size is 5 MB.</string>
+
+    <!-- PDF Extraction -->
+    <string name="extracting_text">Reading your resume…</string>
+    <string name="extraction_success">Resume read successfully ✓</string>
+    <string name="storage_not_enabled_yet">Resume text extracted successfully! Cloud upload will be enabled soon.</string>
 </resources>
