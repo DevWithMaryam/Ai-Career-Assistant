@@ -15,8 +15,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // Gemini API Key securely inject
+        buildConfigField "String", "GEMINI_API_KEY", "\"${project.findProperty('GEMINI_API_KEY') ?: ''}\""
     }
 
+    // ✅ buildTypes ANDAR move kiya
     buildTypes {
         release {
             minifyEnabled false
@@ -31,11 +34,11 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
 dependencies {
-
     // ---- Already present (Version Catalog) ----
     implementation libs.appcompat
     implementation libs.material
@@ -71,6 +74,7 @@ dependencies {
 
     // Glide (images/avatars)
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+
     // PDF text extraction
-// ✅ Sahi (hyphen)
-    implementation 'com.tom-roush:pdfbox-android:2.0.27.0'}
+    implementation 'com.tom-roush:pdfbox-android:2.0.27.0'
+}
