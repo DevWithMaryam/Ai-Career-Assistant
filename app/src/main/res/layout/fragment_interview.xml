@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="20dp">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:text="@string/interview_title"
+            android:textColor="@color/text_primary" android:textSize="24sp" android:textStyle="bold"/>
+
+        <TextView android:id="@+id/tvInterviewCareer"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" android:textColor="@color/primary"
+            android:textSize="14sp" android:textStyle="bold"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" android:text="@string/interview_subtitle"
+            android:textColor="@color/text_secondary" android:textSize="13sp"/>
+
+        <Button android:id="@+id/btnGenerateInterview"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:layout_marginTop="20dp" android:backgroundTint="@color/primary"
+            android:text="@string/generate_interview" android:textAllCaps="false"
+            android:textColor="@color/white" app:cornerRadius="12dp"/>
+
+        <LinearLayout android:id="@+id/layoutLoading"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:gravity="center"
+            android:orientation="vertical" android:visibility="gone">
+            <ProgressBar android:layout_width="48dp" android:layout_height="48dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:text="@string/generating_interview"
+                android:textColor="@color/text_secondary" android:textSize="13sp"/>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/cardTechnical"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:visibility="gone"
+            app:cardBackgroundColor="@color/surface" app:cardCornerRadius="14dp" app:cardElevation="2dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/technical_questions" android:textColor="@color/card_indigo"
+                    android:textSize="16sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/tvTechnical"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" android:textColor="@color/text_primary"
+                    android:textSize="13sp" android:lineSpacingExtra="6dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/cardHr"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" android:visibility="gone"
+            app:cardBackgroundColor="@color/surface" app:cardCornerRadius="14dp" app:cardElevation="2dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/hr_questions" android:textColor="@color/success"
+                    android:textSize="16sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/tvHr"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" android:textColor="@color/text_primary"
+                    android:textSize="13sp" android:lineSpacingExtra="6dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/cardResumeBased"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" android:visibility="gone"
+            app:cardBackgroundColor="@color/surface" app:cardCornerRadius="14dp" app:cardElevation="2dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/resume_questions" android:textColor="@color/card_orange"
+                    android:textSize="16sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/tvResumeBased"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" android:textColor="@color/text_primary"
+                    android:textSize="13sp" android:lineSpacingExtra="6dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button android:id="@+id/btnGoHome"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:layout_marginTop="20dp" android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/success" android:text="@string/go_to_home"
+            android:textAllCaps="false" android:textColor="@color/white"
+            android:visibility="gone" app:cornerRadius="12dp"/>
+
+    </LinearLayout>
+</ScrollView>
