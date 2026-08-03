@@ -76,4 +76,59 @@
     <string name="suggestions">→ Suggestions</string>
     <string name="next_select_career">Next: Select Target Career →</string>
     <string name="error_no_resume_text">No resume found. Please upload your resume first.</string>
+
+    <!-- Career Selection -->
+    <string name="career_selection_title">Select Target Career</string>
+    <string name="career_selection_subtitle">Choose the role you want to grow into — we\'ll analyze your skill gaps</string>
+    <string name="career_android">Android Developer</string>
+    <string name="career_android_desc">Build native Android apps with Java/Kotlin</string>
+    <string name="career_frontend">Frontend Developer</string>
+    <string name="career_frontend_desc">Create responsive web UIs with React, Vue, or Angular</string>
+    <string name="career_backend">Backend Developer</string>
+    <string name="career_backend_desc">Design APIs and server-side systems</string>
+    <string name="career_data">Data Analyst</string>
+    <string name="career_data_desc">Analyze data and generate insights with Python &amp; SQL</string>
+    <string name="confirm_career">Confirm Career &amp; Analyze Skill Gap →</string>
+    <string name="career_selected">%s selected! Analyzing skill gap…</string>
+
+
+    <!-- Skill Gap -->
+    <string name="skill_gap_title">Skill Gap Analysis</string>
+    <string name="skill_gap_subtitle">See what skills you need for your target career</string>
+    <string name="analyze_skill_gap">Analyze Skill Gap</string>
+    <string name="analyzing_skill_gap">Analyzing skill gap with AI…</string>
+    <string name="existing_skills">✓ Your Existing Skills</string>
+    <string name="missing_skills">✗ Missing Skills</string>
+    <string name="priority_skills">⚡ Priority Skills to Learn</string>
+    <string name="next_roadmap">Next: Generate Learning Roadmap →</string>
+
+    <!-- Roadmap -->
+    <string name="roadmap_title">Learning Roadmap</string>
+    <string name="roadmap_subtitle">Your personalized 4-week learning plan</string>
+    <string name="generate_roadmap">Generate My Roadmap</string>
+    <string name="generating_roadmap">Creating your personalized roadmap…</string>
+    <string name="next_interview">Next: Practice Interview Questions →</string>
+
+    <!-- Interview -->
+    <string name="interview_title">Interview Questions</string>
+    <string name="interview_subtitle">AI-generated questions for your target role</string>
+    <string name="generate_interview">Generate Interview Questions</string>
+    <string name="generating_interview">Generating interview questions…</string>
+    <string name="technical_questions">💻 Technical Questions</string>
+    <string name="hr_questions">🤝 HR Questions</string>
+    <string name="resume_questions">📄 Resume-Based Questions</string>
+    <string name="go_to_home">✓ Complete — Go to Home</string>
+
+    <!-- History -->
+    <string name="history_title">Analysis History</string>
+    <string name="history_empty">No history yet.\nComplete a resume analysis to see it here.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">My Profile</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="change_career">Change Target Career</string>
+    <string name="upload_new_resume">Upload New Resume</string>
+    <string name="profile_updated">Profile updated successfully!</string>
+    <string name="target_career_label">Target Career</string>
+    <string name="not_set">Not set</string>
 </resources>

@@ -4,90 +4,100 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/splashFragment">
 
-    <fragment
-        android:id="@+id/splashFragment"
+    <fragment android:id="@+id/splashFragment"
         android:name="com.maryam.aicareerassistant.fragments.SplashFragment"
         android:label="Splash">
-        <action
-            android:id="@+id/action_splash_to_login"
+        <action android:id="@+id/action_splash_to_login"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splash_to_home"
+            app:popUpTo="@id/splashFragment" app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_splash_to_home"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/splashFragment" app:popUpToInclusive="true"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/loginFragment"
+    <fragment android:id="@+id/loginFragment"
         android:name="com.maryam.aicareerassistant.fragments.LoginFragment"
         android:label="Login">
-        <action
-            android:id="@+id/action_login_to_signup"
-            app:destination="@id/signupFragment" />
-        <action
-            android:id="@+id/action_login_to_forgotPassword"
-            app:destination="@id/forgotPasswordFragment" />
-        <action
-            android:id="@+id/action_login_to_home"
+        <action android:id="@+id/action_login_to_signup" app:destination="@id/signupFragment"/>
+        <action android:id="@+id/action_login_to_forgotPassword" app:destination="@id/forgotPasswordFragment"/>
+        <action android:id="@+id/action_login_to_home"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/splashFragment" app:popUpToInclusive="true"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/signupFragment"
+    <fragment android:id="@+id/signupFragment"
         android:name="com.maryam.aicareerassistant.fragments.SignupFragment"
         android:label="Signup">
-        <action
-            android:id="@+id/action_signup_to_home"
+        <action android:id="@+id/action_signup_to_home"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/splashFragment" app:popUpToInclusive="true"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/forgotPasswordFragment"
+    <fragment android:id="@+id/forgotPasswordFragment"
         android:name="com.maryam.aicareerassistant.fragments.ForgotPasswordFragment"
-        android:label="Forgot Password" />
+        android:label="Forgot Password"/>
 
-    <fragment
-        android:id="@+id/homeFragment"
+    <fragment android:id="@+id/homeFragment"
         android:name="com.maryam.aicareerassistant.fragments.HomeFragment"
         android:label="Home">
-        <action
-            android:id="@+id/action_home_to_login"
+        <action android:id="@+id/action_home_to_login"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_home_to_resumeUpload"
-            app:destination="@id/resumeUploadFragment" />
+            app:popUpTo="@id/nav_graph" app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_home_to_resumeUpload" app:destination="@id/resumeUploadFragment"/>
+        <action android:id="@+id/action_home_to_careerSelection" app:destination="@id/careerSelectionFragment"/>
+        <action android:id="@+id/action_home_to_history" app:destination="@id/historyFragment"/>
+        <action android:id="@+id/action_home_to_profile" app:destination="@id/profileFragment"/>
+        <action android:id="@+id/action_home_to_roadmap" app:destination="@id/roadmapFragment"/>
+        <action android:id="@+id/action_home_to_interview" app:destination="@id/interviewFragment"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/resumeUploadFragment"
+    <fragment android:id="@+id/resumeUploadFragment"
         android:name="com.maryam.aicareerassistant.fragments.ResumeUploadFragment"
         android:label="Resume Upload">
-        <action
-            android:id="@+id/action_resumeUpload_to_resumeAnalysis"
-            app:destination="@id/resumeAnalysisFragment" />
+        <action android:id="@+id/action_resumeUpload_to_resumeAnalysis" app:destination="@id/resumeAnalysisFragment"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/resumeAnalysisFragment"
+    <fragment android:id="@+id/resumeAnalysisFragment"
         android:name="com.maryam.aicareerassistant.fragments.ResumeAnalysisFragment"
         android:label="Resume Analysis">
-        <action
-            android:id="@+id/action_resumeAnalysis_to_careerSelection"
-            app:destination="@id/careerSelectionFragment" />
+        <action android:id="@+id/action_resumeAnalysis_to_careerSelection" app:destination="@id/careerSelectionFragment"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/careerSelectionFragment"
+    <fragment android:id="@+id/careerSelectionFragment"
         android:name="com.maryam.aicareerassistant.fragments.CareerSelectionFragment"
-        android:label="Career Selection" />
+        android:label="Career Selection">
+        <action android:id="@+id/action_careerSelection_to_skillGap" app:destination="@id/skillGapFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/skillGapFragment"
+        android:name="com.maryam.aicareerassistant.fragments.SkillGapFragment"
+        android:label="Skill Gap">
+        <action android:id="@+id/action_skillGap_to_roadmap" app:destination="@id/roadmapFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/roadmapFragment"
+        android:name="com.maryam.aicareerassistant.fragments.RoadmapFragment"
+        android:label="Learning Roadmap">
+        <action android:id="@+id/action_roadmap_to_interview" app:destination="@id/interviewFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/interviewFragment"
+        android:name="com.maryam.aicareerassistant.fragments.InterviewFragment"
+        android:label="Interview Questions">
+        <action android:id="@+id/action_interview_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment android:id="@+id/historyFragment"
+        android:name="com.maryam.aicareerassistant.fragments.HistoryFragment"
+        android:label="History"/>
+
+    <fragment android:id="@+id/profileFragment"
+        android:name="com.maryam.aicareerassistant.fragments.ProfileFragment"
+        android:label="Profile">
+        <action android:id="@+id/action_profile_to_careerSelection" app:destination="@id/careerSelectionFragment"/>
+        <action android:id="@+id/action_profile_to_resumeUpload" app:destination="@id/resumeUploadFragment"/>
+    </fragment>
 
 </navigation>

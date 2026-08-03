@@ -2,10 +2,10 @@ package com.maryam.aicareerassistant.model;
 
 import java.util.List;
 
-/**
- * Represents a parsed Gemini resume analysis response.
- * Also stored in Firestore under users/{uid}/analysis/{docId}
- */
+///**
+// * Represents a parsed Gemini resume analysis response.
+// * Also stored in Firestore under users/{uid}/analysis/{docId}
+// */
 public class ResumeAnalysis {
 
     private int score;
@@ -36,7 +36,6 @@ public class ResumeAnalysis {
 
     public List<String> getSuggestions() { return suggestions; }
     public void setSuggestions(List<String> suggestions) { this.suggestions = suggestions; }
-
     public long getTimestamp() { return timestamp; }
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 }
