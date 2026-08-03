@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,25 +23,20 @@ import com.maryam.aicareerassistant.viewmodel.AuthViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Home Dashboard — entry point after login. Shows navigation cards
- * for every major feature of the app.
- */
 public class HomeFragment extends Fragment {
 
     private AuthViewModel authViewModel;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-
         setupHeader(view);
         setupDashboardGrid(view);
         setupLogout(view);
@@ -59,74 +53,61 @@ public class HomeFragment extends Fragment {
     private void setupDashboardGrid(View view) {
         RecyclerView rvDashboard = view.findViewById(R.id.rvDashboard);
         rvDashboard.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        List<DashboardItem> items = buildDashboardItems();
-
-        DashboardAdapter adapter = new DashboardAdapter(items, item -> onCardClicked(view, item));
-        rvDashboard.setAdapter(adapter);
-    }
-
-    private List<DashboardItem> buildDashboardItems() {
         List<DashboardItem> items = new ArrayList<>();
-
-        items.add(new DashboardItem(
-                "resume_analysis",
+        items.add(new DashboardItem("resume_analysis",
                 getString(R.string.dashboard_card_resume_title),
                 getString(R.string.dashboard_card_resume_subtitle),
-                R.drawable.ic_resume,
-                R.color.card_indigo));
-
-        items.add(new DashboardItem(
-                "skill_gap",
+                R.drawable.ic_resume, R.color.card_indigo));
+        items.add(new DashboardItem("skill_gap",
                 getString(R.string.dashboard_card_skillgap_title),
                 getString(R.string.dashboard_card_skillgap_subtitle),
-                R.drawable.ic_skill_gap,
-                R.color.accent));
-
-        items.add(new DashboardItem(
-                "roadmap",
+                R.drawable.ic_skill_gap, R.color.accent));
+        items.add(new DashboardItem("roadmap",
                 getString(R.string.dashboard_card_roadmap_title),
                 getString(R.string.dashboard_card_roadmap_subtitle),
-                R.drawable.ic_roadmap,
-                R.color.card_purple));
-
-        items.add(new DashboardItem(
-                "interview",
+                R.drawable.ic_roadmap, R.color.card_purple));
+        items.add(new DashboardItem("interview",
                 getString(R.string.dashboard_card_interview_title),
                 getString(R.string.dashboard_card_interview_subtitle),
-                R.drawable.ic_interview,
-                R.color.card_orange));
-
-        items.add(new DashboardItem(
-                "history",
+                R.drawable.ic_interview, R.color.card_orange));
+        items.add(new DashboardItem("history",
                 getString(R.string.dashboard_card_history_title),
                 getString(R.string.dashboard_card_history_subtitle),
-                R.drawable.ic_history,
-                R.color.card_blue));
-
-        items.add(new DashboardItem(
-                "profile",
+                R.drawable.ic_history, R.color.card_blue));
+        items.add(new DashboardItem("profile",
                 getString(R.string.dashboard_card_profile_title),
                 getString(R.string.dashboard_card_profile_subtitle),
-                R.drawable.ic_profile,
-                R.color.success));
+                R.drawable.ic_profile, R.color.success));
 
-        return items;
+        rvDashboard.setAdapter(new DashboardAdapter(items,
+                item -> onCardClicked(view, item)));
     }
 
     private void onCardClicked(View view, DashboardItem item) {
         switch (item.getKey()) {
             case "resume_analysis":
-                // Resume must be uploaded before it can be analyzed,
-                // so this card currently opens the Upload screen.
-                Navigation.findNavController(view).navigate(R.id.action_home_to_resumeUpload);
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_home_to_resumeUpload);
                 break;
             case "skill_gap":
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_home_to_careerSelection);
+                break;
             case "roadmap":
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_home_to_roadmap);
+                break;
             case "interview":
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_home_to_interview);
+                break;
             case "history":
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_home_to_history);
+                break;
             case "profile":
-                Toast.makeText(getContext(), R.string.coming_soon, Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_home_to_profile);
                 break;
         }
     }
