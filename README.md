@@ -27,7 +27,7 @@ practice with AI-generated interview questions — all in one app.
 
 | Feature | Description |
 |---------|-------------|
-| 🔐 Authentication | Email/password login with **email verification** enforced |
+| 🔐 Authentication | Email/password login with **email verification enforced** |
 | 📄 Resume Upload | PDF picker with local text extraction via PDFBox |
 | 🧠 Resume Analysis | AI score (0–100), strengths, weaknesses and suggestions |
 | 🎯 Career Selection | Android, Frontend, Backend or Data Analyst |
@@ -41,7 +41,7 @@ practice with AI-generated interview questions — all in one app.
 
 ## Screenshots
 
-> *(Screenshots coming soon — add after final testing)*
+> *(Add after final testing)*
 
 | Splash | Login | Home Dashboard |
 |--------|-------|----------------|
@@ -55,9 +55,22 @@ practice with AI-generated interview questions — all in one app.
 
 ## Architecture
 
-![Architecture Diagram](screenshots/architecture.svg)
+![Architecture Diagram](screenshots/architecture.png)
 
-The app follows **MVVM + Repository Pattern** with a strict separation of concerns:
+The app follows **MVVM + Repository Pattern** with strict separation of concerns
+across four layers:
+
+    UI Layer (Fragments)
+          ↓  observes LiveData
+    ViewModel Layer
+          ↓  calls repository methods
+    Repository Layer
+          ↓  reads / writes
+    Data Layer
+      ├── Firebase Auth     (user authentication + email verification)
+      ├── Cloud Firestore   (user profiles, analysis history)
+      ├── Firebase Storage  (PDF resume file storage)
+      └── Gemini 1.5 API   (AI analysis via Retrofit)
 
 ---
 
@@ -82,6 +95,17 @@ The app follows **MVVM + Repository Pattern** with a strict separation of concer
 
 ## Package Structure
 
+    com.maryam.aicareerassistant
+    ├── activities/      MainActivity (single-activity host)
+    ├── fragments/       All 13 screen fragments
+    ├── viewmodel/       AuthViewModel, ResumeViewModel, CareerViewModel
+    ├── repository/      AuthRepository, ResumeRepository, GeminiRepository
+    ├── network/         ApiClient, ApiService (Retrofit + Gemini)
+    ├── firebase/        FirebaseAuthHelper, StorageHelper
+    ├── model/           User, ResumeAnalysis, GeminiRequest, GeminiResponse
+    ├── adapter/         DashboardAdapter, HistoryAdapter
+    └── utils/           Resource, Validator, PdfExtractor,
+                         PromptBuilder, JsonParser, FileUtils, Constants
 
 ---
 
@@ -98,7 +122,7 @@ The app follows **MVVM + Repository Pattern** with a strict separation of concer
 | 7 | Resume Analysis | AI score, strengths, weaknesses, suggestions |
 | 8 | Career Selection | 4 target career options with visual selection |
 | 9 | Skill Gap | Existing vs missing vs priority skills |
-| 10 | Learning Roadmap | 4-week personalised plan with tasks + resources |
+| 10 | Learning Roadmap | 4-week personalised plan with tasks and resources |
 | 11 | Interview Prep | Technical, HR and resume-based questions |
 | 12 | History | Past analyses with score badges from Firestore |
 | 13 | Profile | Name, career, resume management |
@@ -107,28 +131,32 @@ The app follows **MVVM + Repository Pattern** with a strict separation of concer
 
 ## Firestore Structure
 
-
-analysis/
-{docId}/
-score: 78
-strengths: [...]
-weaknesses: [...]
-suggestions: [...]
-timestamp: 1234567890
-
-roadmaps/
-{docId}/
-roadmapJson: "..."
-career: "Android Developer"
-timestamp: 1234567890
-
-interviews/
-{docId}/
-interviewJson: "..."
-career: "Android Developer"
-timestamp: 1234567890
-
-
+    users (collection)
+    └── {userId} (document)
+        ├── name: string
+        ├── email: string
+        ├── targetCareer: string
+        ├── resumeUrl: string
+        │
+        ├── analysis (subcollection)
+        │   └── {docId}
+        │       ├── score: number
+        │       ├── strengths: array
+        │       ├── weaknesses: array
+        │       ├── suggestions: array
+        │       └── timestamp: number
+        │
+        ├── roadmaps (subcollection)
+        │   └── {docId}
+        │       ├── roadmapJson: string
+        │       ├── career: string
+        │       └── timestamp: number
+        │
+        └── interviews (subcollection)
+            └── {docId}
+                ├── interviewJson: string
+                ├── career: string
+                └── timestamp: number
 
 ---
 
@@ -144,38 +172,39 @@ timestamp: 1234567890
 
 ### Setup
 
-**1. Clone the repository**
-```bash
-git clone https://github.com/DevWithMaryam/Ai-Career-Assistant.git
-cd Ai-Career-Assistant
-```
+**1. Clone or download the repository**
+
+Download the project and open it in Android Studio.
 
 **2. Add Firebase configuration**
+
 - Create a project at [Firebase Console](https://console.firebase.google.com)
 - Enable **Email/Password** authentication
 - Create a **Firestore** database
 - Enable **Firebase Storage** (requires Blaze plan)
-- Download `google-services.json` → place in `app/` folder
+- Download `google-services.json` and place it in the `app/` folder
 
-**3. Add Gemini API key**
+**3. Add your Gemini API key**
 
-In `local.properties`:
+Open `local.properties` in the project root and add:
+
 ```properties
 GEMINI_API_KEY=your_api_key_here
 ```
 
 **4. Sync and run**
-- Open in Android Studio → Sync Now → Run
+
+Open in Android Studio, click **Sync Now**, then run on a device or emulator.
 
 ---
 
-## Security Notes
+## Security
 
 - `google-services.json` is excluded from version control via `.gitignore`
-- `local.properties` (containing API key) is excluded from version control
-- Firebase Storage rules restrict access to authenticated users only
-- Firestore rules enforce `request.auth != null` for all reads/writes
-- Email verification required before login is permitted
+- `local.properties` (API key) is excluded from version control
+- Firebase Storage rules restrict file access to the authenticated owner only
+- Firestore rules enforce `request.auth != null` for all reads and writes
+- Email verification is required before login is permitted
 
 ---
 
@@ -190,7 +219,16 @@ GEMINI_API_KEY=your_api_key_here
 
 ## License
 
+Copyright 2026 Maryam Akram. All Rights Reserved.
+
+This project is created for portfolio and demonstration purposes.
+The source code may be viewed publicly but may not be copied, modified,
+redistributed, or used in other projects without explicit written
+permission from the author.
+
+For licensing inquiries or collaboration, please reach out via LinkedIn.
+
 ---
 
 *Built to demonstrate modern Android development with AI integration,
-clean MVVM architecture, and production-ready Firebase backend.*
+clean MVVM architecture, and a production-ready Firebase backend.*
