@@ -25,17 +25,17 @@ practice with AI-generated interview questions — all in one app.
 
 ## Features
 
-| Feature | Description |
-|---------|-------------|
+| Feature | Description                                               |
+|---------|-----------------------------------------------------------|
 | 🔐 Authentication | Email/password login with **email verification enforced** |
-| 📄 Resume Upload | PDF picker with local text extraction via PDFBox |
-| 🧠 Resume Analysis | AI score (0–100), strengths, weaknesses and suggestions |
-| 🎯 Career Selection | Android, Frontend, Backend or Data Analyst |
-| 📊 Skill Gap Detection | Compare resume skills vs target career requirements |
-| 🗺️ Learning Roadmap | Personalised 4-week AI-generated weekly plan |
-| 💬 Interview Prep | Technical, HR and resume-based questions via Gemini AI |
-| 📋 History | Past analyses loaded from Firestore with score badges |
-| 👤 Profile | Update name, change career target, upload new resume |
+| 📄 Resume Upload | PDF picker with local text extraction via PDFBox          |
+| 🧠 Resume Analysis | AI score (0–100), strengths, weaknesses and suggestions   |
+| 🎯 Career Selection | Android, Frontend, Backend , Data Analyst or target career |
+| 📊 Skill Gap Detection | Compare resume skills vs target career requirements       |
+| 🗺️ Learning Roadmap | Personalised 4-week AI-generated weekly plan              |
+| 💬 Interview Prep | Technical, HR and resume-based questions via Gemini AI    |
+| 📋 History | Past analyses loaded from Firestore with score badges     |
+| 👤 Profile | Update name, change career target, upload new resume      |
 
 
 ---
