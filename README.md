@@ -37,25 +37,10 @@ practice with AI-generated interview questions — all in one app.
 | 📋 History | Past analyses loaded from Firestore with score badges |
 | 👤 Profile | Update name, change career target, upload new resume |
 
----
-
-## Screenshots
-
-> *(Add after final testing)*
-
-| Splash | Login | Home Dashboard |
-|--------|-------|----------------|
-| ![splash](screenshots/splash.png) | ![login](screenshots/login.png) | ![home](screenshots/home.png) |
-
-| Resume Analysis | Skill Gap | Roadmap |
-|-----------------|-----------|---------|
-| ![analysis](screenshots/analysis.png) | ![skillgap](screenshots/skillgap.png) | ![roadmap](screenshots/roadmap.png) |
 
 ---
 
 ## Architecture
-
-![Architecture Diagram](screenshots/architecture.png)
 
 The app follows **MVVM + Repository Pattern** with strict separation of concerns
 across four layers:

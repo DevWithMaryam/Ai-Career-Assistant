@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -19,17 +18,20 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.maryam.aicareerassistant.R;
 import com.maryam.aicareerassistant.viewmodel.AuthViewModel;
 
+/**
+ * Signup screen — creates a new Firebase Auth account + Firestore user profile.
+ */
 public class SignupFragment extends Fragment {
 
     private AuthViewModel authViewModel;
+
     private TextInputEditText etName, etEmail, etPassword, etConfirmPassword;
     private Button btnSignup;
     private ProgressBar progressBar;
     private TextView tvLoginLink;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_signup, container, false);
     }
 
@@ -52,54 +54,36 @@ public class SignupFragment extends Fragment {
         tvLoginLink.setOnClickListener(v ->
                 Navigation.findNavController(view).popBackStack());
 
-        observeAuthResult();
+        observeAuthResult(view);
     }
 
     private void attemptSignup() {
-        String name = etName.getText() != null
-                ? etName.getText().toString().trim() : "";
-        String email = etEmail.getText() != null
-                ? etEmail.getText().toString().trim() : "";
-        String password = etPassword.getText() != null
-                ? etPassword.getText().toString().trim() : "";
-        String confirm = etConfirmPassword.getText() != null
-                ? etConfirmPassword.getText().toString().trim() : "";
+        String name = etName.getText() != null ? etName.getText().toString().trim() : "";
+        String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
+        String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
+        String confirmPassword = etConfirmPassword.getText() != null ? etConfirmPassword.getText().toString().trim() : "";
 
-        authViewModel.signup(name, email, password, confirm);
+        authViewModel.signup(name, email, password, confirmPassword);
     }
 
-    private void observeAuthResult() {
+    private void observeAuthResult(View view) {
         authViewModel.getAuthResult().observe(getViewLifecycleOwner(), resource -> {
             if (resource == null) return;
+
             switch (resource.status) {
                 case LOADING:
                     setLoading(true);
                     break;
-
                 case SUCCESS:
                     setLoading(false);
-                    // Show verification email sent dialog instead of navigating
-                    showVerificationSentDialog();
+                    Navigation.findNavController(view).navigate(R.id.action_signup_to_home);
                     break;
-
                 case ERROR:
                     setLoading(false);
-                    Toast.makeText(getContext(),
-                            resource.message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), resource.message, Toast.LENGTH_LONG).show();
                     break;
             }
         });
-    }
-
-    private void showVerificationSentDialog() {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Account Created! ✓")
-                .setMessage("A verification link has been sent to your email address.\n\n"
-                        + "Please verify your email before logging in.")
-                .setPositiveButton("Go to Login", (dialog, which) ->
-                        Navigation.findNavController(requireView()).popBackStack())
-                .setCancelable(false)
-                .show();
     }
 
     private void setLoading(boolean isLoading) {
