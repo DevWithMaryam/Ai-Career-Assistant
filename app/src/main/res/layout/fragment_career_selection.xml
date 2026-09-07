@@ -29,7 +29,7 @@
             android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
-        <!-- Android Developer Card -->
+        <!-- Android Developer -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardAndroid"
             android:layout_width="match_parent"
@@ -41,8 +41,8 @@
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeWidth="2dp"
-            app:strokeColor="@color/primary_light">
+            app:strokeColor="@color/primary_light"
+            app:strokeWidth="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,7 +52,6 @@
                 android:padding="20dp">
 
                 <View
-                    android:id="@+id/dotAndroid"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:background="@drawable/bg_icon_circle"
@@ -61,8 +60,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -86,14 +85,13 @@
                     android:id="@+id/checkAndroid"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_check"
-                    android:visibility="gone"
-                    android:contentDescription="@null" />
-
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Frontend Developer Card -->
+        <!-- Frontend Developer -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardFrontend"
             android:layout_width="match_parent"
@@ -105,8 +103,8 @@
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeWidth="2dp"
-            app:strokeColor="@color/primary_light">
+            app:strokeColor="@color/primary_light"
+            app:strokeWidth="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -124,8 +122,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -149,14 +147,13 @@
                     android:id="@+id/checkFrontend"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_check"
-                    android:visibility="gone"
-                    android:contentDescription="@null" />
-
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Backend Developer Card -->
+        <!-- Backend Developer -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardBackend"
             android:layout_width="match_parent"
@@ -168,8 +165,8 @@
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeWidth="2dp"
-            app:strokeColor="@color/primary_light">
+            app:strokeColor="@color/primary_light"
+            app:strokeWidth="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -187,8 +184,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -212,14 +209,13 @@
                     android:id="@+id/checkBackend"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_check"
-                    android:visibility="gone"
-                    android:contentDescription="@null" />
-
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Data Analyst Card -->
+        <!-- Data Analyst -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardData"
             android:layout_width="match_parent"
@@ -231,8 +227,8 @@
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeWidth="2dp"
-            app:strokeColor="@color/primary_light">
+            app:strokeColor="@color/primary_light"
+            app:strokeWidth="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -250,8 +246,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -275,12 +271,92 @@
                     android:id="@+id/checkData"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_check"
-                    android:visibility="gone"
-                    android:contentDescription="@null" />
-
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- Other / Custom Career -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/primary_light"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <View
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:background="@drawable/bg_icon_circle"
+                    android:backgroundTint="@color/text_secondary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/career_other"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/career_other_desc"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/checkCustom"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_check"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Custom career text input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCustomCareer"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="@string/career_other_hint"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCustomCareer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Confirm Button -->
         <Button

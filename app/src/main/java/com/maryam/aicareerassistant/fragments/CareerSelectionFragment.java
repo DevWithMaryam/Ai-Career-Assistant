@@ -14,26 +14,28 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.maryam.aicareerassistant.R;
 import com.maryam.aicareerassistant.utils.Constants;
 import com.maryam.aicareerassistant.viewmodel.CareerViewModel;
 
-/**
- * Lets the user pick their target career. Selection is:
- *  1. Saved in CareerViewModel (for the current session — Skill Gap, Roadmap, etc.)
- *  2. Persisted in Firestore users/{uid}.targetCareer
- */
 public class CareerSelectionFragment extends Fragment {
 
     private CareerViewModel careerViewModel;
 
-    private MaterialCardView cardAndroid, cardFrontend, cardBackend, cardData;
-    private ImageView checkAndroid, checkFrontend, checkBackend, checkData;
+    private MaterialCardView cardAndroid, cardFrontend, cardBackend,
+            cardData, cardCustom;
+    private ImageView checkAndroid, checkFrontend, checkBackend,
+            checkData, checkCustom;
+    private TextInputLayout tilCustomCareer;
+    private TextInputEditText etCustomCareer;
     private Button btnConfirmCareer;
 
     private String selectedCareer = null;
+    private boolean isCustomSelected = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -44,7 +46,6 @@ public class CareerSelectionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         careerViewModel = new ViewModelProvider(requireActivity()).get(CareerViewModel.class);
 
         bindViews(view);
@@ -59,96 +60,144 @@ public class CareerSelectionFragment extends Fragment {
         cardFrontend = view.findViewById(R.id.cardFrontend);
         cardBackend = view.findViewById(R.id.cardBackend);
         cardData = view.findViewById(R.id.cardData);
+        cardCustom = view.findViewById(R.id.cardCustom);
 
         checkAndroid = view.findViewById(R.id.checkAndroid);
         checkFrontend = view.findViewById(R.id.checkFrontend);
         checkBackend = view.findViewById(R.id.checkBackend);
         checkData = view.findViewById(R.id.checkData);
+        checkCustom = view.findViewById(R.id.checkCustom);
 
+        tilCustomCareer = view.findViewById(R.id.tilCustomCareer);
+        etCustomCareer = view.findViewById(R.id.etCustomCareer);
         btnConfirmCareer = view.findViewById(R.id.btnConfirmCareer);
     }
 
     private void restorePreviousSelection() {
-        // If user already chose a career earlier in this session, restore it
         String prev = careerViewModel.getCurrentTargetCareer();
-        if (prev != null) {
+        if (prev == null) return;
+
+        if (prev.equals(Constants.CAREER_ANDROID) ||
+                prev.equals(Constants.CAREER_FRONTEND) ||
+                prev.equals(Constants.CAREER_BACKEND) ||
+                prev.equals(Constants.CAREER_DATA)) {
             selectedCareer = prev;
             highlightSelected(prev);
-            btnConfirmCareer.setEnabled(true);
+        } else {
+            // Was a custom career
+            isCustomSelected = true;
+            selectedCareer = prev;
+            highlightCustom();
+            etCustomCareer.setText(prev);
         }
+        btnConfirmCareer.setEnabled(true);
     }
 
     private void setupCardClicks() {
-        cardAndroid.setOnClickListener(v -> selectCareer(Constants.CAREER_ANDROID));
-        cardFrontend.setOnClickListener(v -> selectCareer(Constants.CAREER_FRONTEND));
-        cardBackend.setOnClickListener(v -> selectCareer(Constants.CAREER_BACKEND));
-        cardData.setOnClickListener(v -> selectCareer(Constants.CAREER_DATA));
+        cardAndroid.setOnClickListener(v -> selectPreset(Constants.CAREER_ANDROID));
+        cardFrontend.setOnClickListener(v -> selectPreset(Constants.CAREER_FRONTEND));
+        cardBackend.setOnClickListener(v -> selectPreset(Constants.CAREER_BACKEND));
+        cardData.setOnClickListener(v -> selectPreset(Constants.CAREER_DATA));
+
+        cardCustom.setOnClickListener(v -> {
+            isCustomSelected = true;
+            selectedCareer = null; // Will be read from text field
+            highlightCustom();
+            btnConfirmCareer.setEnabled(true);
+        });
     }
 
-    private void selectCareer(String career) {
+    private void selectPreset(String career) {
+        isCustomSelected = false;
         selectedCareer = career;
         highlightSelected(career);
+        tilCustomCareer.setVisibility(View.GONE);
         btnConfirmCareer.setEnabled(true);
     }
 
     private void highlightSelected(String career) {
-        // Reset all cards
-        resetCard(cardAndroid, checkAndroid);
-        resetCard(cardFrontend, checkFrontend);
-        resetCard(cardBackend, checkBackend);
-        resetCard(cardData, checkData);
-
-        // Highlight selected
-        int selectedColor = requireContext().getColor(R.color.primary);
-        int selectedStroke = requireContext().getColor(R.color.primary);
+        resetAllCards();
+        int color = requireContext().getColor(R.color.primary);
 
         if (career.equals(Constants.CAREER_ANDROID)) {
-            cardAndroid.setStrokeColor(selectedColor);
-            cardAndroid.setCardBackgroundColor(
-                    requireContext().getColor(R.color.primary_light) & 0x20FFFFFF
-                            | 0xFFF5F6FF);
+            cardAndroid.setStrokeColor(color);
             checkAndroid.setVisibility(View.VISIBLE);
         } else if (career.equals(Constants.CAREER_FRONTEND)) {
-            cardFrontend.setStrokeColor(selectedColor);
+            cardFrontend.setStrokeColor(color);
             checkFrontend.setVisibility(View.VISIBLE);
         } else if (career.equals(Constants.CAREER_BACKEND)) {
-            cardBackend.setStrokeColor(selectedColor);
+            cardBackend.setStrokeColor(color);
             checkBackend.setVisibility(View.VISIBLE);
         } else if (career.equals(Constants.CAREER_DATA)) {
-            cardData.setStrokeColor(selectedColor);
+            cardData.setStrokeColor(color);
             checkData.setVisibility(View.VISIBLE);
         }
     }
 
-    private void resetCard(MaterialCardView card, ImageView check) {
-        card.setStrokeColor(requireContext().getColor(R.color.primary_light));
-        card.setCardBackgroundColor(requireContext().getColor(R.color.surface));
-        check.setVisibility(View.GONE);
+    private void highlightCustom() {
+        resetAllCards();
+        int color = requireContext().getColor(R.color.primary);
+        cardCustom.setStrokeColor(color);
+        checkCustom.setVisibility(View.VISIBLE);
+        tilCustomCareer.setVisibility(View.VISIBLE);
+    }
+
+    private void resetAllCards() {
+        int defaultColor = requireContext().getColor(R.color.primary_light);
+        int surfaceColor = requireContext().getColor(R.color.surface);
+
+        cardAndroid.setStrokeColor(defaultColor);
+        cardAndroid.setCardBackgroundColor(surfaceColor);
+        cardFrontend.setStrokeColor(defaultColor);
+        cardFrontend.setCardBackgroundColor(surfaceColor);
+        cardBackend.setStrokeColor(defaultColor);
+        cardBackend.setCardBackgroundColor(surfaceColor);
+        cardData.setStrokeColor(defaultColor);
+        cardData.setCardBackgroundColor(surfaceColor);
+        cardCustom.setStrokeColor(defaultColor);
+        cardCustom.setCardBackgroundColor(surfaceColor);
+
+        checkAndroid.setVisibility(View.GONE);
+        checkFrontend.setVisibility(View.GONE);
+        checkBackend.setVisibility(View.GONE);
+        checkData.setVisibility(View.GONE);
+        checkCustom.setVisibility(View.GONE);
     }
 
     private void confirmSelection(View view) {
-        if (selectedCareer == null) return;
+        String career;
 
-        // Save in ViewModel (session)
-        careerViewModel.setCurrentTargetCareer(selectedCareer);
+        if (isCustomSelected) {
+            // Read from text field
+            String customText = etCustomCareer.getText() != null
+                    ? etCustomCareer.getText().toString().trim() : "";
+            if (customText.isEmpty()) {
+                Toast.makeText(getContext(),
+                        R.string.error_enter_career, Toast.LENGTH_SHORT).show();
+                etCustomCareer.requestFocus();
+                return;
+            }
+            career = customText;
+        } else {
+            if (selectedCareer == null) return;
+            career = selectedCareer;
+        }
+
+        // Save in ViewModel session
+        careerViewModel.setCurrentTargetCareer(career);
 
         // Persist in Firestore
         String uid = FirebaseAuth.getInstance().getCurrentUser() != null
                 ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
-
         if (uid != null) {
             FirebaseFirestore.getInstance()
                     .collection(Constants.COLLECTION_USERS)
                     .document(uid)
-                    .update("targetCareer", selectedCareer)
-                    .addOnFailureListener(e ->
-                            Toast.makeText(getContext(),
-                                    "Saved locally, sync failed: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show());
+                    .update("targetCareer", career);
         }
 
         Toast.makeText(getContext(),
-                getString(R.string.career_selected, selectedCareer),
+                getString(R.string.career_selected, career),
                 Toast.LENGTH_SHORT).show();
 
         Navigation.findNavController(view)

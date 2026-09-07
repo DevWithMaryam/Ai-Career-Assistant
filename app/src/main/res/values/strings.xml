@@ -131,4 +131,10 @@
     <string name="profile_updated">Profile updated successfully!</string>
     <string name="target_career_label">Target Career</string>
     <string name="not_set">Not set</string>
+
+
+    <string name="career_other">Other Career</string>
+    <string name="career_other_desc">Bio Science, Business, Design, or any field</string>
+    <string name="career_other_hint">Type your target career (e.g. Data Scientist)</string>
+    <string name="error_enter_career">Please enter your target career.</string>
 </resources>
