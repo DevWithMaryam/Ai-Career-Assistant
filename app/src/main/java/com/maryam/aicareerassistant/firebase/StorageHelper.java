@@ -11,6 +11,9 @@ import com.google.firebase.storage.UploadTask;
 /**
  * Thin wrapper around Firebase Storage SDK — keeps raw Storage calls
  * out of the Repository layer.
+ * this activity is not use in project because upgrade
+ * project. firebase storage not use because pricing plan not intrigate with my bank account.
+ *
  */
 public class StorageHelper {
 

@@ -9,7 +9,7 @@
 ![Architecture](https://img.shields.io/badge/Architecture-MVVM-blue)
 ![Min SDK](https://img.shields.io/badge/Min%20SDK-API%2024-yellow)
 ![Firebase](https://img.shields.io/badge/Firebase-Auth%20%2B%20Firestore-FF6F00?logo=firebase&logoColor=white)
-![AI](https://img.shields.io/badge/Gemini-1.5%20Flash-8E24AA?logo=google&logoColor=white)
+![AI](https://img.shields.io/badge/Gemini-Flash-8E24AA?logo=google&logoColor=white)
 
 ---
 
@@ -25,17 +25,17 @@ practice with AI-generated interview questions — all in one app.
 
 ## Features
 
-| Feature | Description                                               |
-|---------|-----------------------------------------------------------|
+| Feature | Description |
+|---------|----------|
 | 🔐 Authentication | Email/password login with **email verification enforced** |
-| 📄 Resume Upload | PDF picker with local text extraction via PDFBox          |
-| 🧠 Resume Analysis | AI score (0–100), strengths, weaknesses and suggestions   |
+| 📄 Resume Upload | PDF picker, local text extraction via PDFBox, saved in Firestore, one-tap reuse         |
+| 🧠 Resume Analysis | AI score (0–100), strengths, weaknesses and suggestions |
 | 🎯 Career Selection | Android, Frontend, Backend , Data Analyst or target career |
-| 📊 Skill Gap Detection | Compare resume skills vs target career requirements       |
-| 🗺️ Learning Roadmap | Personalised 4-week AI-generated weekly plan              |
-| 💬 Interview Prep | Technical, HR and resume-based questions via Gemini AI    |
-| 📋 History | Past analyses loaded from Firestore with score badges     |
-| 👤 Profile | Update name, change career target, upload new resume      |
+| 📊 Skill Gap Detection | Compare resume skills vs target career requirements |
+| 🗺️ Learning Roadmap | Personalised 4-week AI-generated weekly plan |
+| 💬 Interview Prep | Technical, HR and resume-based questions via Gemini AI |
+| 📋 History | Past analyses loaded from Firestore with score badges |
+| 👤 Profile | Update name, change career target, upload new resume |
 
 
 ---
@@ -54,8 +54,7 @@ across four layers:
     Data Layer
       ├── Firebase Auth     (user authentication + email verification)
       ├── Cloud Firestore   (user profiles, analysis history)
-      ├── Firebase Storage  (PDF resume file storage)
-      └── Gemini 1.5 API   (AI analysis via Retrofit)
+      └── Gemini Flash API   (AI analysis via Retrofit)
 
 ---
 
@@ -68,8 +67,8 @@ across four layers:
 | MVVM + Repository Pattern | Architecture |
 | Firebase Authentication | Login, signup, email verification |
 | Cloud Firestore | User profiles, analysis history |
-| Firebase Cloud Storage | PDF resume file storage |
-| Gemini 1.5 Flash API | AI resume analysis, skill gap, roadmap, interview |
+| User profiles, resume text, analysis history|
+| Gemini Flash API | AI resume analysis, skill gap, roadmap, interview |
 | Retrofit + OkHttp | Network layer for Gemini API |
 | PDFBox-Android | Local PDF text extraction |
 | Android Navigation Component | Single-Activity fragment navigation |
@@ -97,15 +96,15 @@ across four layers:
 ## App Screens
 
 | # | Screen | Description |
-|---|--------|-------------|
+|---|--------|-|
 | 1 | Splash | Session check with server-side token validation |
 | 2 | Login | Firebase auth with email verification enforcement |
 | 3 | Signup | Account creation + automatic verification email |
 | 4 | Forgot Password | Reset link sent to registered email |
 | 5 | Home Dashboard | 6 feature cards with Material Design grid |
-| 6 | Resume Upload | PDF picker, size validation, cloud upload |
+| 6 | Resume Upload | PDF picker, size validation, local text extraction, saved resume reuse|
 | 7 | Resume Analysis | AI score, strengths, weaknesses, suggestions |
-| 8 | Career Selection | 4 target career options with visual selection |
+| 8 | Career Selection | 4 preset careers + custom "Other" career input|
 | 9 | Skill Gap | Existing vs missing vs priority skills |
 | 10 | Learning Roadmap | 4-week personalised plan with tasks and resources |
 | 11 | Interview Prep | Technical, HR and resume-based questions |
@@ -121,7 +120,9 @@ across four layers:
         ├── name: string
         ├── email: string
         ├── targetCareer: string
-        ├── resumeUrl: string
+        ├── resumeText: string
+            resumeFileName: string
+            resumeUpdatedAt: number
         │
         ├── analysis (subcollection)
         │   └── {docId}
@@ -166,7 +167,6 @@ Download the project and open it in Android Studio.
 - Create a project at [Firebase Console](https://console.firebase.google.com)
 - Enable **Email/Password** authentication
 - Create a **Firestore** database
-- Enable **Firebase Storage** (requires Blaze plan)
 - Download `google-services.json` and place it in the `app/` folder
 
 **3. Add your Gemini API key**
@@ -187,10 +187,14 @@ Open in Android Studio, click **Sync Now**, then run on a device or emulator.
 
 - `google-services.json` is excluded from version control via `.gitignore`
 - `local.properties` (API key) is excluded from version control
-- Firebase Storage rules restrict file access to the authenticated owner only
 - Firestore rules enforce `request.auth != null` for all reads and writes
 - Email verification is required before login is permitted
+## Future Improvements
 
+- Store the original PDF in Firebase Storage once billing is enabled
+- OCR support for scanned resumes
+- Offline caching with Room
+- Unit tests for ViewModels and repositories
 ---
 
 ## Developer
