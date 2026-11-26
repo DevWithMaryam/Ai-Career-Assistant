@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,30 +14,38 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.card.MaterialCardView;
 import com.maryam.aicareerassistant.R;
 import com.maryam.aicareerassistant.utils.FileUtils;
+import com.maryam.aicareerassistant.utils.Resource;
 import com.maryam.aicareerassistant.viewmodel.CareerViewModel;
 import com.maryam.aicareerassistant.viewmodel.ResumeViewModel;
 
+/**
+ * Lets the user pick a PDF resume. The text is extracted locally and saved
+ * to Firestore (no Firebase Storage needed). Returning users can reuse
+ * their saved resume with one tap.
+ */
 public class ResumeUploadFragment extends Fragment {
 
     private ResumeViewModel resumeViewModel;
     private CareerViewModel careerViewModel;
 
     private MaterialCardView cardExistingResume;
-    private Button btnViewExistingResume;
     private MaterialCardView cardPicker;
-    private TextView tvFileName, tvFileSize, tvExtractionStatus;
+    private Button btnUseSaved;
     private Button btnUpload;
-    private LinearLayout progressContainer;
-    private ProgressBar progressBar;
-    private TextView tvProgressPercent;
+    private TextView tvFileName;
+    private TextView tvFileSize;
+    private TextView tvExtractionStatus;
 
     private Uri selectedFileUri = null;
-    private String currentResumeUrl = null;
+    private String selectedFileName = null;
+    private String savedResumeText = null;
 
     private final ActivityResultLauncher<String[]> pdfPickerLauncher =
             registerForActivityResult(
@@ -57,26 +63,26 @@ public class ResumeUploadFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         resumeViewModel = new ViewModelProvider(this).get(ResumeViewModel.class);
-        // CareerViewModel is activity-scoped — survives navigation
+        // Activity-scoped: shares resume text with the next screens
         careerViewModel = new ViewModelProvider(requireActivity()).get(CareerViewModel.class);
 
         bindViews(view);
         setupListeners();
-        observeViewModel(view);
-        resumeViewModel.checkExistingResume();
+        observeViewModel();
+
+        resumeViewModel.loadSavedResume();
     }
 
     private void bindViews(View view) {
         cardExistingResume = view.findViewById(R.id.cardExistingResume);
-        btnViewExistingResume = view.findViewById(R.id.btnViewExistingResume);
         cardPicker = view.findViewById(R.id.cardPicker);
+        btnUseSaved = view.findViewById(R.id.btnViewExistingResume);
+        btnUpload = view.findViewById(R.id.btnUpload);
         tvFileName = view.findViewById(R.id.tvFileName);
         tvFileSize = view.findViewById(R.id.tvFileSize);
         tvExtractionStatus = view.findViewById(R.id.tvExtractionStatus);
-        btnUpload = view.findViewById(R.id.btnUpload);
-        progressContainer = view.findViewById(R.id.progressContainer);
-        progressBar = view.findViewById(R.id.progressBar);
-        tvProgressPercent = view.findViewById(R.id.tvProgressPercent);
+
+        btnUseSaved.setText(R.string.use_saved_resume);
     }
 
     private void setupListeners() {
@@ -85,76 +91,99 @@ public class ResumeUploadFragment extends Fragment {
 
         btnUpload.setOnClickListener(v -> {
             if (selectedFileUri != null) {
-                resumeViewModel.extractTextFromPdf(selectedFileUri);
+                resumeViewModel.processResume(selectedFileUri, selectedFileName);
             }
         });
 
-        btnViewExistingResume.setOnClickListener(v -> {
-            if (currentResumeUrl != null && !currentResumeUrl.isEmpty()) {
-                android.content.Intent intent = new android.content.Intent(
-                        android.content.Intent.ACTION_VIEW,
-                        Uri.parse(currentResumeUrl));
-                startActivity(intent);
-            }
+        btnUseSaved.setOnClickListener(v -> {
+            if (savedResumeText == null || savedResumeText.trim().isEmpty()) return;
+            careerViewModel.setCurrentResumeText(savedResumeText);
+            goToAnalysis();
         });
     }
 
     private void handlePickedFile(Uri uri) {
         if (uri == null || !isAdded()) return;
+
         long sizeBytes = FileUtils.getFileSize(requireContext().getContentResolver(), uri);
+
         if (sizeBytes > FileUtils.MAX_FILE_SIZE_BYTES) {
             Toast.makeText(getContext(), R.string.error_file_too_large, Toast.LENGTH_LONG).show();
             return;
         }
+
         selectedFileUri = uri;
-        tvFileName.setText(FileUtils.getFileName(requireContext().getContentResolver(), uri));
+        selectedFileName = FileUtils.getFileName(requireContext().getContentResolver(), uri);
+
+        tvFileName.setText(selectedFileName);
         tvFileSize.setText(FileUtils.formatFileSize(sizeBytes));
         tvFileSize.setVisibility(View.VISIBLE);
         tvExtractionStatus.setVisibility(View.GONE);
+
         btnUpload.setEnabled(true);
     }
 
-    private void observeViewModel(View view) {
+    private void observeViewModel() {
 
-        resumeViewModel.getExtractionResult().observe(getViewLifecycleOwner(), resource -> {
+        resumeViewModel.getProcessResult().observe(getViewLifecycleOwner(), resource -> {
             if (resource == null) return;
+
             switch (resource.status) {
                 case LOADING:
-                    btnUpload.setEnabled(false);
-                    cardPicker.setEnabled(false);
-                    tvExtractionStatus.setText(R.string.extracting_text);
-                    tvExtractionStatus.setVisibility(View.VISIBLE);
+                    setBusy(true);
                     break;
 
                 case SUCCESS:
-                    // Save extracted text to shared CareerViewModel
+                    setBusy(false);
+                    resumeViewModel.clearProcessResult();
                     careerViewModel.setCurrentResumeText(resource.data);
-                    tvExtractionStatus.setText(R.string.extraction_success);
-                    // Navigate safely
-                    if (isAdded() && getView() != null) {
-                        Navigation.findNavController(requireView())
-                                .navigate(R.id.action_resumeUpload_to_resumeAnalysis);
-                    }
+                    goToAnalysis();
                     break;
 
                 case ERROR:
-                    btnUpload.setEnabled(true);
-                    cardPicker.setEnabled(true);
+                    setBusy(false);
                     tvExtractionStatus.setVisibility(View.GONE);
                     Toast.makeText(getContext(), resource.message, Toast.LENGTH_LONG).show();
+                    resumeViewModel.clearProcessResult();
                     break;
             }
         });
 
-        resumeViewModel.getExistingResumeResult().observe(getViewLifecycleOwner(), resource -> {
+        resumeViewModel.getSavedResumeResult().observe(getViewLifecycleOwner(), resource -> {
             if (resource == null) return;
-            if (resource.status == com.maryam.aicareerassistant.utils.Resource.Status.SUCCESS) {
-                String url = resource.data;
-                if (url != null && !url.isEmpty()) {
-                    currentResumeUrl = url;
-                    cardExistingResume.setVisibility(View.VISIBLE);
-                }
+
+            if (resource.status == Resource.Status.SUCCESS) {
+                savedResumeText = resource.data;
+                boolean hasSaved = savedResumeText != null
+                        && !savedResumeText.trim().isEmpty();
+                cardExistingResume.setVisibility(hasSaved ? View.VISIBLE : View.GONE);
             }
+            // LOADING / ERROR on this silent background check need no UI
         });
+    }
+
+    private void setBusy(boolean busy) {
+        btnUpload.setEnabled(!busy && selectedFileUri != null);
+        cardPicker.setEnabled(!busy);
+        btnUseSaved.setEnabled(!busy);
+
+        if (busy) {
+            tvExtractionStatus.setText(R.string.extracting_text);
+            tvExtractionStatus.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Navigates only if we are still on this screen (prevents a crash
+     * from double taps or a late callback).
+     */
+    private void goToAnalysis() {
+        if (!isAdded() || getView() == null) return;
+
+        NavController navController = Navigation.findNavController(requireView());
+        NavDestination current = navController.getCurrentDestination();
+        if (current != null && current.getId() == R.id.resumeUploadFragment) {
+            navController.navigate(R.id.action_resumeUpload_to_resumeAnalysis);
+        }
     }
 }

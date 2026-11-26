@@ -55,7 +55,8 @@
     <string name="view_resume">View</string>
     <string name="tap_to_select_pdf">Tap to select a PDF file</string>
     <string name="pdf_size_hint">PDF only • Max size 5 MB</string>
-    <string name="upload_resume">Upload Resume</string>
+    <!--<string name="upload_resume">Upload Resume</string>-->
+    <string name="upload_resume">Read &amp; Continue</string>
     <string name="resume_upload_success">Resume uploaded successfully!</string>
     <string name="error_file_too_large">File is too large. Maximum allowed size is 5 MB.</string>
 
@@ -137,4 +138,5 @@
     <string name="career_other_desc">Bio Science, Business, Design, or any field</string>
     <string name="career_other_hint">Type your target career (e.g. Data Scientist)</string>
     <string name="error_enter_career">Please enter your target career.</string>
+    <string name="use_saved_resume">Use Saved</string>
 </resources>

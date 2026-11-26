@@ -3,6 +3,13 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
 }
 
+// Read GEMINI_API_KEY from local.properties
+def localProps = new Properties()
+def localPropsFile = rootProject.file("local.properties")
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+
 android {
     namespace 'com.maryam.aicareerassistant'
     compileSdk 36
@@ -13,13 +20,13 @@ android {
         targetSdk 36
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // Gemini API Key securely inject
-        buildConfigField "String", "GEMINI_API_KEY", "\"${project.findProperty('GEMINI_API_KEY') ?: ''}\""
+
+        buildConfigField "String", "GEMINI_API_KEY", "\"${localProps.getProperty('GEMINI_API_KEY', '')}\""
     }
 
-    // ✅ buildTypes ANDAR move kiya
     buildTypes {
         release {
             minifyEnabled false

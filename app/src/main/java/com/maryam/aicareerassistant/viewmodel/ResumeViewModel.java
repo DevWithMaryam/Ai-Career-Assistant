@@ -15,15 +15,17 @@ import com.maryam.aicareerassistant.utils.Resource;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Handles: PDF -> text extraction (background thread) and
+ * saving / loading the resume text via ResumeRepository.
+ */
 public class ResumeViewModel extends AndroidViewModel {
 
     private final ResumeRepository resumeRepository;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    private final MutableLiveData<Integer> uploadProgress = new MutableLiveData<>();
-    private final MutableLiveData<Resource<String>> uploadResult = new MutableLiveData<>();
-    private final MutableLiveData<Resource<String>> existingResumeResult = new MutableLiveData<>();
-    private final MutableLiveData<Resource<String>> extractionResult = new MutableLiveData<>();
+    private final MutableLiveData<Resource<String>> processResult = new MutableLiveData<>();
+    private final MutableLiveData<Resource<String>> savedResumeResult = new MutableLiveData<>();
 
     private String extractedResumeText = null;
 
@@ -32,42 +34,47 @@ public class ResumeViewModel extends AndroidViewModel {
         resumeRepository = new ResumeRepository();
     }
 
-    public LiveData<Integer> getUploadProgress() { return uploadProgress; }
-    public LiveData<Resource<String>> getUploadResult() { return uploadResult; }
-    public LiveData<Resource<String>> getExistingResumeResult() { return existingResumeResult; }
-    public LiveData<Resource<String>> getExtractionResult() { return extractionResult; }
+    public LiveData<Resource<String>> getProcessResult() { return processResult; }
+
+    public LiveData<Resource<String>> getSavedResumeResult() { return savedResumeResult; }
 
     public String getExtractedResumeText() { return extractedResumeText; }
 
-    public void uploadResume(Uri fileUri) {
-        resumeRepository.uploadResume(fileUri, uploadProgress, uploadResult);
-    }
+    /**
+     * Extracts text from the picked PDF, saves it to Firestore in the
+     * background, and posts the text to processResult.
+     */
+    public void processResume(Uri pdfUri, String fileName) {
+        processResult.setValue(Resource.loading());
 
-    public void checkExistingResume() {
-        resumeRepository.fetchExistingResumeUrl(existingResumeResult);
-    }
-
-    public void extractTextFromPdf(Uri pdfUri) {
-        extractionResult.setValue(Resource.loading());
-
-        executor.execute(() -> {
-            PdfExtractor.extractText(
-                    getApplication().getContentResolver(),
-                    pdfUri,
-                    new PdfExtractor.ExtractionCallback() {
-                        @Override
-                        public void onSuccess(String text) {
-                            extractedResumeText = text;
-                            extractionResult.postValue(Resource.success(text));
-                        }
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            extractionResult.postValue(Resource.error(errorMessage));
-                        }
+        executor.execute(() -> PdfExtractor.extractText(
+                getApplication().getContentResolver(),
+                pdfUri,
+                new PdfExtractor.ExtractionCallback() {
+                    @Override
+                    public void onSuccess(String text) {
+                        extractedResumeText = text;
+                        resumeRepository.saveResumeText(text, fileName);
+                        processResult.postValue(Resource.success(text));
                     }
-            );
-        });
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        processResult.postValue(Resource.error(errorMessage));
+                    }
+                }));
+    }
+
+    /**
+     * Call after the UI has handled SUCCESS/ERROR, so coming back to the
+     * screen does not trigger the same navigation or toast again.
+     */
+    public void clearProcessResult() {
+        processResult.setValue(null);
+    }
+
+    public void loadSavedResume() {
+        resumeRepository.fetchSavedResumeText(savedResumeResult);
     }
 
     @Override
